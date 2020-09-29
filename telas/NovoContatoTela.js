@@ -6,53 +6,69 @@ import {
     StyleSheet, 
     Button,
     TextInput,
-    ScrollView,
-    FlatList
+    ScrollView
 }
 from 'react-native';
+import { useDispatch } from 'react-redux';
+import TiraFoto from '../componentes/TiraFoto';
 
 import cores from '../constantes/cores';
+import * as contatosActions from '../store/contatos-actions';
 
-import ContatoItem from '../componentes/ContatoItem';
-import ContatoInput from '../componentes/ContatoInput';
+const NovoContatoTela = (props) => {
 
-const NovoLugarTela = (props) => {
+    const dispatch = useDispatch(); 
 
-    const[contatos, setContatos] = useState ([]);
-    const[contadorContatos, setContadorContatos] = useState(10);
-  
-    const adicionarContato = (contato, telefone) => {
-      setContatos(contatos => {
-          setContadorContatos(contadorContatos + 2);
-          return [...contatos, {key: contadorContatos.toString(), nome: contato, telefone: telefone}]
-      });
+    const[novoContato, setNovoContato] = useState('');
+    const[novoTelefone, setNovoTelefone] = useState('');
+    const [imagemURI, setImagemURI] = useState('');
+    
+    const fotoTirada = imagemURI => {
+        setImagemURI(imagemURI);
     }
-  
-    const removerContato = (keyASerRemovida) =>{
-      setContatos(contatos => {
-        return contatos.filter((contato) => {
-           return contato.key !== keyASerRemovida
-        })
-      });
+
+
+    const novoContatoAlterado = (texto) => {
+        setNovoContato(texto);
+    }
+
+    const novoTelefoneAlterado = (texto) => {
+        setNovoTelefone(texto);
+    }
+
+    const adicionarContato = () => {
+        dispatch (contatosActions.addContato(novoContato, novoTelefone, imagemURI));
+        setNovoContato('');
+        setNovoTelefone('');
+        props.navigation.goBack();
     }
 
     return (
-        <View style={estilos.telaPrincipalView}>
-        <ContatoInput onAdicionarContato={adicionarContato}/>
-            <FlatList 
-            data={contatos}
-            renderItem={
-                (contato) => (
-                <ContatoItem
-                    chave={contato.item.key} 
-                    contato={contato.item.key + ' - ' + contato.item.nome + ' - ' + contato.item.telefone} 
-                    onDelete={removerContato}
+        <ScrollView>
+            <View style={estilos.form}>
+                <Text style={estilos.titulo}>Novo Contato</Text>
+                <TextInput 
+                    placeholder="Nome"
+                    style={estilos.textInput}
+                    onChangeText={novoContatoAlterado}
+                    value={novoContato}
                 />
-                )
-            }
-            />      
-        </View>
-    );
+                <TextInput
+                    placeholder="Telefone"
+                    style={estilos.textInput}
+                    onChangeText={novoTelefoneAlterado}
+                    value={novoTelefone}
+                />
+                <TiraFoto onFotoTirada={fotoTirada}/>
+                <Button
+                    title="Salvar contato"
+                    color={cores.primary}
+                    onPress={adicionarContato}
+                />
+            </View>
+        </ScrollView>
+
+    )
 };
 
 const estilos = StyleSheet.create ({
@@ -72,4 +88,4 @@ const estilos = StyleSheet.create ({
     }
 });
 
-export default NovoLugarTela;
+export default NovoContatoTela;
