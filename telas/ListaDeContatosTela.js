@@ -1,4 +1,4 @@
-import React from  'react';
+import React, { useEffect } from  'react';
 
 import {
     View,
@@ -12,10 +12,17 @@ import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import BotaoCabecalho from '../componentes/BotaoCabecalho';
 
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import ContatoItem from '../componentes/ContatoItem';
 
+import * as contatosActions from '../store/contatos-actions';
+
 const ListaDeContatosTela = (props) => {
+
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch((contatosActions.listarContatos()))
+    });
 
     const contatos = useSelector (estado => estado.contatos.contatos);
 

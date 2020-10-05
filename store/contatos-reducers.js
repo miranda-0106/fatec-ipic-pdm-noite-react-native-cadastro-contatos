@@ -1,4 +1,4 @@
-import { ADD_CONTATO } from "./contatos-actions";
+import { ADD_CONTATO, LISTA_CONTATOS } from "./contatos-actions";
 import Contato from '../modelo/Contato';
 
 const estadoInicial = {
@@ -20,6 +20,10 @@ export default (estado = estadoInicial, action) => {
             return {
                 contatos: estado.contatos.concat(contato)
             }
+        case LISTA_CONTATOS:
+            return {
+                lugares: action.contatos.map(contato => Lugar(contato.id.toString(), contato.nome, contato.imagemURI))
+            }    
         default:
             return estado;
     }
