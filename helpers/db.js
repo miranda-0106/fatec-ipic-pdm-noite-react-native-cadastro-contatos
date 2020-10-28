@@ -17,12 +17,12 @@ export const init = () => {
     return promise;
 }
 
-export const inserirContato = (nomeContato, imagemURI, telefone, lat, lng) => {
+export const inserirContato = (horaCadastro, nomeContato, imagemURI, telefone, lat, lng) => {
     const promise = new Promise ((resolve, reject) => {
         db.transaction((tx) => {
             tx.executeSql(
-                'INSERT INTO tb_contato (nome, imagemURI, telefone, lat, lng) VALUES (?, ? , ?, ?, ?)',
-                [nomeContato, imagemURI, telefone, lat, lng],
+                'INSERT INTO tb_contato (horaCadastro, nome, imagemURI, telefone, lat, lng) VALUES (?, ?, ? , ?, ?, ?)',
+                [horaCadastro, nomeContato, imagemURI, telefone, lat, lng],
                 (_, resultado) => {resolve(resultado)},
                 (_, err) => {reject (err)}
             );

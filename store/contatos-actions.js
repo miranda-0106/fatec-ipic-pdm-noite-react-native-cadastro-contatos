@@ -18,7 +18,7 @@ export const listarContatos = () => {
     }
 }
 
-export const addContato = (nomeContato, imagemURI) => {
+export const addContato = (horaContato, nomeContato, imagemURI) => {
     return async dispatch => {
         //file://diretorioTemporario/nome.png
         const nomeArquivo = imagemURI.split('/').pop();
@@ -29,10 +29,10 @@ export const addContato = (nomeContato, imagemURI) => {
                 to: novoPath
             });
 
-            const resultadoDB = await inserirContato (nomeContato, novoPath, telefone, 48.8584, 2.2945);
+            const resultadoDB = await inserirContato (horaContato, nomeContato, novoPath, telefone, 48.8584, 2.2945);
             console.log (resultadoDB);
 
-            dispatch({type: ADD_CONTATO, dadosContato: {id: resultadoDB. insertId, nomeContato: nomeContato, imagemURI: novoPath}})
+            dispatch({type: ADD_CONTATO, dadosContato: {id: resultadoDB.insertId, horaContato: horaContato, nomeContato: nomeContato, imagemURI: novoPath}})
         }
         catch (err) {
             console.log(err);

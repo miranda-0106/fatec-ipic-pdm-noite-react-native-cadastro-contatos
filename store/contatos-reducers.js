@@ -12,6 +12,7 @@ export default (estado = estadoInicial, action) => {
         case ADD_CONTATO:
             const contato = new Contato (
                 (contador).toString(),
+                new Date.toLocaleTimeString(),
                 action.dadosContato.nomeContato, 
                 action.dadosContato.telefone,
                 action.dadosContato.imagemURI
